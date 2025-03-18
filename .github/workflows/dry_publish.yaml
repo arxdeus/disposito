@@ -1,0 +1,47 @@
+name: Dry Run
+
+on:
+  push:
+    branches:
+      - "release/**"
+  pull_request:
+    types:
+      - opened
+      - reopened
+    branches:
+      - 'main'
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      dart-matrix: ${{ steps.dart-matrix.outputs.matrix }}
+    steps:
+      - name: Get Dart SDK version constraints and packages
+        id: dart-matrix
+        uses: arxdeus/github_workflows/actions/dart_parse_versions@main
+        with:
+          parse-lower-version: false
+          parse-upper-version: true
+  dry_publish:
+    name: "Dry Publish - ${{ strategy.job-index }}"
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.dart-matrix) }}
+    steps:
+    - name: "Checkout repository"
+      uses: actions/checkout@v4
+      with:
+        fetch-tags: true
+        fetch-depth: 0
+
+    - name: "Setup Dart ${{ matrix.dart-version }}"
+      uses: dart-lang/setup-dart@v1
+      with:
+        sdk: ${{ matrix.dart-version }}
+
+    - name: "Run Dry Publish"
+      shell: bash
+      if: ${{ github.event_name == 'pull_request' ||  github.event_name == 'push' }}
+      run: |
+        dart pub publish --dry-run
