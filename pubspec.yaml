@@ -1,5 +1,5 @@
 name: disposito
-description: A sample command-line application.
+description: Semi-automatic dispose holder that allows centralised disposal of objects
 version: 0.0.1
 repository: https://github.com/arxdeus/disposito
 
