@@ -10,7 +10,7 @@
 
 - **(dispose_tracker)** dispose tracker as public global interactor - ([2e03b79](https://github.com/arxdeus/disposito/commit/2e03b79eaf447ea1efdd3b0ecdd1183d51e49806))
 - **(dispose_tracker)** purge on create/dispose each other holder - ([f38e5c9](https://github.com/arxdeus/disposito/commit/f38e5c91488b54db900df2fb767bdcb087ef1cbc))
--  [**BREAKING CHANGE**]disposito - ([ca1db16](https://github.com/arxdeus/disposito/commit/ca1db16623904e79f7ddd2351066d8fe29157857))
+-  [**BREAKING CHANGE**] disposito main logic - ([ca1db16](https://github.com/arxdeus/disposito/commit/ca1db16623904e79f7ddd2351066d8fe29157857))
 
 ### Miscellaneous Chores
 
