@@ -36,7 +36,10 @@ FutureOr<void> runTestsInVmService(
   FutureOr<void> Function(VmServiceUtil) body, {
   required String selfFilePath,
 }) async {
-  Log.d(kTag, 'runInVmService selfFilePath=$selfFilePath Platform.script.path=${Platform.script.path}');
+  Log.d(
+    kTag,
+    'runInVmService selfFilePath=$selfFilePath Platform.script.path=${Platform.script.path}',
+  );
 
   if (Platform.script.path == selfFilePath) {
     final vmService = await VmServiceUtil.create();
