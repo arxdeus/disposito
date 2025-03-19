@@ -18,12 +18,18 @@ class Test with DisposeHolderHostMixin {
     dispose: (controller) => controller.close(),
   );
 
-  late final StreamController<Object?> controller3 = StreamController<Object?>().bindDisposeTo(disposeHolder);
-  late final StreamController<Object?> controller4 = StreamController<Object?>().bindDisposeTo(disposeHolder);
-  late final StreamController<Object?> controller5 = StreamController<Object?>().bindDisposeTo(disposeHolder);
-  late final StreamController<Object?> controller6 = StreamController<Object?>().bindDisposeTo(disposeHolder);
-  late final StreamController<Object?> controller7 = StreamController<Object?>().bindDisposeTo(disposeHolder);
-  late final StreamController<Object?> controller8 = StreamController<Object?>().bindDisposeTo(disposeHolder);
+  late final StreamController<Object?> controller3 =
+      StreamController<Object?>().bindDisposeTo(disposeHolder);
+  late final StreamController<Object?> controller4 =
+      StreamController<Object?>().bindDisposeTo(disposeHolder);
+  late final StreamController<Object?> controller5 =
+      StreamController<Object?>().bindDisposeTo(disposeHolder);
+  late final StreamController<Object?> controller6 =
+      StreamController<Object?>().bindDisposeTo(disposeHolder);
+  late final StreamController<Object?> controller7 =
+      StreamController<Object?>().bindDisposeTo(disposeHolder);
+  late final StreamController<Object?> controller8 =
+      StreamController<Object?>().bindDisposeTo(disposeHolder);
 
   Test load() {
     // someInteger;
@@ -50,11 +56,12 @@ void main() async {
     x = null;
     y = null;
 
-    print(DisposeTracker.registeredHolders);
-    expect(DisposeTracker.registeredHolders, isNotEmpty);
+    print(DisposeTracker.disposeHolders);
+    expect(DisposeTracker.disposeHolders, isNotEmpty);
 
     await Future(vmService.gc);
 
-    expect(DisposeTracker.registeredHolders, isEmpty);
+    print(DisposeTracker.disposeHolders);
+    expect(DisposeTracker.disposeHolders, isEmpty);
   });
 }
