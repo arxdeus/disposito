@@ -37,5 +37,5 @@ mixin DisposeHolderHostMixin implements Disposable {
 
   @override
   @mustCallSuper
-  FutureOr<void> dispose() => disposeHolder.dispose();
+  void dispose() => disposeHolder.dispose();
 }

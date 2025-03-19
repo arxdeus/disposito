@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 /// Wrapper to hold disposable info
 @internal
 @immutable
-class DisposableWrapper<T> {
+final class DisposableWrapper<T> {
   const DisposableWrapper({
     required this.instance,
     required this.dispose,
