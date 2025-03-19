@@ -1,20 +1,16 @@
-import 'package:disposito/src/dispose_holder.dart';
+import 'dart:collection';
+
+import 'package:disposito/disposito.dart';
+import 'package:disposito/src/internal/dispose_registry.dart';
 import 'package:meta/meta.dart';
 
 abstract final class DisposeTracker {
-  @internal
-  static final registeredHolders = <DisposeHolder, WeakReference<Object>>{};
+  static final disposeHolders = UnmodifiableMapView(DisposeRegistry.registeredHolders);
 
-  @internal
   @visibleForTesting
-  static bool get hasUndisposedHolders => registeredHolders.isNotEmpty;
+  static bool get hasUndisposedHolders => DisposeRegistry.registeredHolders.isNotEmpty;
 
-  @internal
   @experimental
-  @visibleForTesting
-  static Future<void> forceDisposeAll() async {
-    for (final holder in registeredHolders.keys) {
-      await holder.dispose();
-    }
-  }
+  static void forceDisposeAll() =>
+      DisposeRegistry.registeredHolders.keys.forEach(Disposable.disposeObject);
 }
