@@ -1,20 +1,25 @@
 import 'dart:async';
 
-import 'package:disposito/src/dispose_tracker.dart';
 import 'package:disposito/src/dispose_wrapper.dart';
 import 'package:disposito/src/interfaces.dart';
-import 'package:disposito/src/internal.dart';
+import 'package:disposito/src/internal/dispose_registry.dart';
+import 'package:disposito/src/internal/internal.dart';
 import 'package:meta/meta.dart';
 
 final class DisposeHolder
-    implements CustomDisposableCallHost, CustomDisposableFactoryCallHost, DisposeGroup, Named, Disposable {
+    implements
+        CustomDisposableCallHost,
+        CustomDisposableFactoryCallHost,
+        DisposeGroup,
+        Named,
+        Disposable {
   DisposeHolder(
     Object parent, {
     String? debugName,
   }) : $debugName = debugName {
     _parent = WeakReference(parent);
     _finalizer.attach(parent, this, detach: _parent);
-    DisposeTracker.registeredHolders[this] = _parent;
+    DisposeRegistry.purgeAfter(() => DisposeRegistry.registeredHolders[this] = _parent);
   }
 
   @override
@@ -30,10 +35,7 @@ final class DisposeHolder
   bool _isDisposed = false;
   bool get isDisposed => _isDisposed;
 
-  static final _finalizer = Finalizer<DisposeHolder>((holder) {
-    holder.dispose();
-    DisposeTracker.registeredHolders.remove(holder);
-  });
+  static final _finalizer = Finalizer<DisposeHolder>(Disposable.disposeObject);
 
   @override
   @nonVirtual
@@ -76,18 +78,17 @@ final class DisposeHolder
 
   @override
   @mustCallSuper
-  Future<void> dispose() async {
+  void dispose() {
     if (_isDisposed) return;
     // Prevents binding to this holder during disposing
     // preventing `Concurrent modification` problem
     _isDisposed = true;
 
-    // Future.wait doesn't works here
     for (final dispose in $disposers) {
       dispose();
     }
 
-    DisposeTracker.registeredHolders.remove(this);
+    DisposeRegistry.purgeAfter(() => DisposeRegistry.registeredHolders.remove(this));
     _finalizer.detach(_parent);
   }
 
