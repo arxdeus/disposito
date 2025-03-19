@@ -1,9 +1,14 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
+
 typedef DisposeCallback = FutureOr<void> Function();
 
 abstract class Disposable {
   FutureOr<void> dispose();
+
+  @internal
+  static void disposeObject(Disposable disposable) => disposable.dispose();
 }
 
 abstract class Closable {
