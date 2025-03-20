@@ -20,8 +20,8 @@ jobs:
         id: dart-matrix
         uses: arxdeus/github_workflows/actions/dart_parse_versions@main
         with:
-          parse-lower-version: false
-          parse-upper-version: true
+          parse-lower-version: true
+          parse-upper-version: false
   dry_publish:
     name: "Dry Publish - ${{ strategy.job-index }}"
     needs: setup
