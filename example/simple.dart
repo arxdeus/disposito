@@ -9,11 +9,22 @@ class SomeCoolObject with DisposeHolderHostMixin {
   );
 
   // ignore: cancel_subscriptions
-  late final sub = streamController.stream.listen(print).bindDisposeTo(disposeHolder);
+  late final sub = customDisposableFactory(
+    () => streamController.stream.listen(print),
+    dispose: (instance) async {
+      unawaited(instance.cancel());
+      await Future<void>.delayed(const Duration(seconds: 1));
+    },
+  );
 
   void add(int input) {
     if (streamController.isClosed) return;
     streamController.add(input);
+  }
+
+  Future<void> someFutureCall() async {
+    await Future(() {});
+    add(456);
   }
 
   SomeCoolObject() {
@@ -22,12 +33,14 @@ class SomeCoolObject with DisposeHolderHostMixin {
   }
 }
 
-void main(List<String> args) {
+void main(List<String> args) async {
   final someCoolObject = SomeCoolObject();
 
   someCoolObject.add(123);
-  someCoolObject.add(456);
-  someCoolObject.dispose();
+  await someCoolObject.someFutureCall();
+
+  await someCoolObject.dispose();
+  print('hello?');
 
   someCoolObject.add(789); // no 789? T_T
 }
