@@ -8,9 +8,9 @@ import 'package:meta/meta.dart';
 abstract final class DisposeRegistry {
   static final registeredHolders = <DisposeHolder, WeakReference<Object>>{};
 
-  static void purgeAfter(void Function() function) {
-    function();
-    scheduleMicrotask(_purge);
+  static Future<void> purgeAfter(FutureOr<void> Function() function) async {
+    await function();
+    Future(_purge).ignore();
   }
 
   static void _purge() => registeredHolders.entries
