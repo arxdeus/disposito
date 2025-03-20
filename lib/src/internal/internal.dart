@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:disposito/src/dispose_wrapper.dart';
+import 'package:disposito/src/internal/dispose_wrapper.dart';
 import 'package:meta/meta.dart';
 
 @internal
