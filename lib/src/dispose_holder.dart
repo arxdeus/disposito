@@ -78,14 +78,14 @@ final class DisposeHolder
 
   @override
   @mustCallSuper
-  void dispose() {
+  Future<void> dispose() async {
     if (_isDisposed) return;
     // Prevents binding to this holder during disposing
     // preventing `Concurrent modification` problem
     _isDisposed = true;
 
     for (final dispose in $disposers) {
-      dispose();
+      await Future.sync(dispose.dispose);
     }
 
     DisposeRegistry.purgeAfter(() => DisposeRegistry.registeredHolders.remove(this));
