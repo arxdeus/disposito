@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:disposito/src/dispose_wrapper.dart';
 import 'package:disposito/src/interfaces.dart';
 import 'package:disposito/src/internal/dispose_registry.dart';
+import 'package:disposito/src/internal/dispose_wrapper.dart';
 import 'package:disposito/src/internal/internal.dart';
 import 'package:meta/meta.dart';
 
@@ -47,10 +47,10 @@ final class DisposeHolder
 
     final wrapper = DisposableWrapper(
       instance: instance,
-      dispose: dispose,
+      disposeCallback: dispose,
     );
 
-    if (!$disposers.contains(dispose)) {
+    if (!$disposers.contains(wrapper)) {
       $disposers.add(wrapper);
     }
     return instance;
@@ -67,7 +67,7 @@ final class DisposeHolder
 
     final wrapper = DisposableWrapper(
       instance: instance,
-      dispose: () => dispose(instance),
+      disposeCallback: () => dispose(instance),
     );
 
     if (!$disposers.contains(wrapper)) {
@@ -78,18 +78,23 @@ final class DisposeHolder
 
   @override
   @mustCallSuper
-  Future<void> dispose() async {
-    if (_isDisposed) return;
+  Future<void> dispose() {
+    if (_isDisposed) return Future.value();
+    final completer = Completer<void>.sync();
     // Prevents binding to this holder during disposing
     // preventing `Concurrent modification` problem
     _isDisposed = true;
 
-    for (final dispose in $disposers) {
-      await Future.sync(dispose.dispose);
-    }
+    scheduleMicrotask(
+      () => Future.wait($disposers.map((dispose) async => await dispose.dispose()))
+          .whenComplete(completer.complete)
+          // ignore: invalid_return_type_for_catch_error
+          .catchError(completer.completeError),
+    );
 
     DisposeRegistry.purgeAfter(() => DisposeRegistry.registeredHolders.remove(this));
     _finalizer.detach(_parent);
+    return completer.future;
   }
 
   @override
