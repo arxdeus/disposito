@@ -8,7 +8,7 @@ abstract class Disposable {
   FutureOr<void> dispose();
 
   @internal
-  static void disposeObject(Disposable disposable) => disposable.dispose();
+  static FutureOr<void> disposeObject(Disposable disposable) => disposable.dispose();
 }
 
 abstract class Closable {
