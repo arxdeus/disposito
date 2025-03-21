@@ -17,21 +17,10 @@ mixin DisposeHolderHostMixin implements Disposable {
   @protected
   T bindDisposable<T extends Object>(
     T instance, {
-    required FutureOr<void> Function() dispose,
+    required FutureOr<void> Function(T instance) dispose,
   }) =>
       disposeHolder.bindDisposable(
         instance,
-        dispose: dispose,
-      );
-
-  @nonVirtual
-  @protected
-  T createDisposable<T extends Object>(
-    T Function() factory, {
-    required FutureOr<void> Function(T instance) dispose,
-  }) =>
-      disposeHolder.createDisposable(
-        factory,
         dispose: dispose,
       );
 

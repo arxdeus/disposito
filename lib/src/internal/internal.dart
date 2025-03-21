@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:disposito/src/internal/dispose_wrapper.dart';
 import 'package:meta/meta.dart';
 
 @internal
 abstract class DisposeGroup {
-  Iterable<DisposableWrapper<Object>> get $disposers;
+  Map<Object, FutureOr<void> Function()> get $disposers;
 }
 
 @internal
@@ -17,14 +16,6 @@ abstract class Named {
 abstract class CustomDisposableCallHost {
   T bindDisposable<T extends Object>(
     T instance, {
-    required FutureOr<void> Function() dispose,
-  });
-}
-
-@internal
-abstract class CustomDisposableFactoryCallHost {
-  T createDisposable<T extends Object>(
-    T Function() factory, {
     required FutureOr<void> Function(T instance) dispose,
   });
 }

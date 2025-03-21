@@ -2,17 +2,10 @@ import 'dart:async';
 
 import 'package:disposito/src/interfaces.dart';
 import 'package:disposito/src/internal/dispose_registry.dart';
-import 'package:disposito/src/internal/dispose_wrapper.dart';
 import 'package:disposito/src/internal/internal.dart';
 import 'package:meta/meta.dart';
 
-final class DisposeHolder
-    implements
-        CustomDisposableCallHost,
-        CustomDisposableFactoryCallHost,
-        DisposeGroup,
-        Named,
-        Disposable {
+final class DisposeHolder implements CustomDisposableCallHost, DisposeGroup, Named, Disposable {
   DisposeHolder(
     Object parent, {
     String? debugName,
@@ -28,7 +21,7 @@ final class DisposeHolder
 
   @override
   @internal
-  final List<DisposableWrapper<Object>> $disposers = [];
+  late final Map<Object, FutureOr<void> Function()> $disposers = {};
 
   late final WeakReference<Object> _parent;
 
@@ -41,37 +34,12 @@ final class DisposeHolder
   @nonVirtual
   T bindDisposable<T extends Object>(
     T instance, {
-    required FutureOr<void> Function() dispose,
-  }) {
-    if (isDisposed) return instance;
-
-    final wrapper = DisposableWrapper(
-      instance: instance,
-      disposeCallback: dispose,
-    );
-
-    if (!$disposers.contains(wrapper)) {
-      $disposers.add(wrapper);
-    }
-    return instance;
-  }
-
-  @override
-  @nonVirtual
-  T createDisposable<T extends Object>(
-    T Function() factory, {
     required FutureOr<void> Function(T instance) dispose,
   }) {
-    final instance = factory();
     if (isDisposed) return instance;
 
-    final wrapper = DisposableWrapper(
-      instance: instance,
-      disposeCallback: () => dispose(instance),
-    );
-
-    if (!$disposers.contains(wrapper)) {
-      $disposers.add(wrapper);
+    if (!$disposers.containsKey(instance)) {
+      $disposers[instance] = () => dispose(instance);
     }
     return instance;
   }
@@ -86,7 +54,7 @@ final class DisposeHolder
     _isDisposed = true;
 
     scheduleMicrotask(
-      () => Future.wait($disposers.map((dispose) async => await dispose.dispose()))
+      () => Future.wait($disposers.values.map((dispose) async => await dispose()))
           .whenComplete(completer.complete)
           // ignore: invalid_return_type_for_catch_error
           .catchError(completer.completeError),
