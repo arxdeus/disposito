@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.1](https://github.com/arxdeus/disposito/compare/v0.2.0..0.2.1) - 2025-03-21
+
+### Documentation
+
+- **(README)** fix typos and misspellings - ([e149ae0](https://github.com/arxdeus/disposito/commit/e149ae002cefe10a503edc734aa6230628e36839))
+
+### Ci
+
+- fix release condition - ([2579ac4](https://github.com/arxdeus/disposito/commit/2579ac4404d09fa925464dca72e3eb31eb8b9506))
+
 ## [0.2.0](https://github.com/arxdeus/disposito/compare/v0.1.0..0.2.0) - 2025-03-21
 
 ### Bug Fixes
