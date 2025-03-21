@@ -5,26 +5,12 @@ on:
     - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}
-    steps:
-      - name: Get Flutter SDK version constraints and packages
-        id: matrix
-        uses: arxdeus/github_workflows/actions/dart_parse_versions@main
-        with:
-          parse-lower-version: false
-          parse-upper-version: true
   publish:
     name: "Publish"
-    needs: setup
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: write
-    strategy:
-      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
     - name: "Checkout repository"
       uses: actions/checkout@v4
@@ -32,18 +18,10 @@ jobs:
         fetch-tags: true
         fetch-depth: 0
 
-    - name: "Setup Dart ${{ matrix.dart-version }}"
+    - name: "Setup Dart"
       uses: dart-lang/setup-dart@v1
       with:
-        sdk: ${{ matrix.dart-version }}
-
-    - name: "Run Dry Publish"
-      shell: bash
-      id: dry-publish
-      run: dart pub publish --dry-run
-
-    - name: "Setup OIDC token"
-      uses: dart-lang/setup-dart@v1
+        sdk: stable
 
     - name: "Run Publish"
       shell: bash
