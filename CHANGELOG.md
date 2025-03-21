@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.2.0](https://github.com/arxdeus/disposito/compare/v0.1.0..0.2.0) - 2025-03-21
+
+### Bug Fixes
+
+- **(dispose_holder)** make dispose async - ([4489a13](https://github.com/arxdeus/disposito/commit/4489a1339b8fde654605c82ca9a4df9dd8e2d40d))
+- **(example)** update to new syntax - ([4f993ff](https://github.com/arxdeus/disposito/commit/4f993ff650a4fb7c9d28fabebdd1db7b2bc8f7d7))
+- **(extensions)** update extensions to new syntax - ([11f03a4](https://github.com/arxdeus/disposito/commit/11f03a4294b3cfddb398c1f04ab4f06cd7066747))
+- path to wrapper inside `internal.dart` - ([f443f00](https://github.com/arxdeus/disposito/commit/f443f001d89d8a8e1cb832c1a99844c122bd086b))
+- remove `createDisposable` and `DisposeWrapper` - ([a3fe6e4](https://github.com/arxdeus/disposito/commit/a3fe6e4a6c3c4def7b51b21dd4583d976f45ff20))
+
+### Documentation
+
+- README - ([36316e9](https://github.com/arxdeus/disposito/commit/36316e90a151204588de3a5f5369ca6fa38394d4))
+
+### Features
+
+- **(disposable)** static `disposeObject` proxies `FutureOr<void>` instead of `void` - ([868ce56](https://github.com/arxdeus/disposito/commit/868ce56fe88eadce5f09736fcedd16acfc280bfc))
+- **(dispose_holder)** rethink of prioritization of dispose queue - ([cbb0832](https://github.com/arxdeus/disposito/commit/cbb0832d2232488fda5321f58101b9d7a80602a8))
+- **(dispose_registry)** rethink of prioritization of purge callback - ([156dc4c](https://github.com/arxdeus/disposito/commit/156dc4ca81426de62b52fd71f648859e5bc2e53e))
+- **(example)** simple example - ([ed12719](https://github.com/arxdeus/disposito/commit/ed127198cb8075339baeea719ff1f02c26ad96ab))
+- **(example)** simple now have async callback and disposes - ([a34805e](https://github.com/arxdeus/disposito/commit/a34805ee2cbedf1a518c86b460930afd1c1a20b8))
+
+### Miscellaneous Chores
+
+- **(dispose_holder)** update naming of methods - ([0ae1aec](https://github.com/arxdeus/disposito/commit/0ae1aec19cc682566899289ad661272d3800361a))
+- **(extensions)** change variable input name - ([b4c4247](https://github.com/arxdeus/disposito/commit/b4c42471f4dabef91da61de0ec4a87bd799ca46d))
+- **(internal)** disposable wrapper implements disposable - ([5443887](https://github.com/arxdeus/disposito/commit/54438870ac45ac3ab0b7cd18dae0d8886f86b6cf))
+
+### Tests
+
+- update to new syntax - ([b45039c](https://github.com/arxdeus/disposito/commit/b45039cbb82a7176129bdc9b729bfc43b5803644))
+
+### Ci
+
+- missing PAT + change versions strategy - ([7bc5260](https://github.com/arxdeus/disposito/commit/7bc5260af08dc2a92882dab0309b15b72b388353))
+
 ## [0.1.0](https://github.com/arxdeus/disposito/compare/v0.0.0..0.1.0) - 2025-03-19
 
 ### Bug Fixes

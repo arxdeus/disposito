@@ -1,6 +1,6 @@
 name: disposito
 description: Semi-automatic dispose holder that allows centralised disposal of objects
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/arxdeus/disposito
 
 environment:
