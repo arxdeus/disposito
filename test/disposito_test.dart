@@ -8,12 +8,12 @@ import 'package:test/test.dart';
 import 'util/gc_util.dart';
 
 class Test with DisposeHolderHostMixin {
-  late final StreamSubscription<Object?> sub = customDisposableFactory(
+  late final StreamSubscription<Object?> sub = createDisposable(
     () => Stream<Object?>.periodic(const Duration(milliseconds: 100)).take(5000).listen(null),
     dispose: (sub) => sub.cancel(),
   );
 
-  late final StreamController<Object?> controller = customDisposableFactory(
+  late final StreamController<Object?> controller = createDisposable(
     StreamController.new,
     dispose: (controller) => controller.close(),
   );

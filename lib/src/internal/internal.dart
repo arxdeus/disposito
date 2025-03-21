@@ -15,7 +15,7 @@ abstract class Named {
 
 @internal
 abstract class CustomDisposableCallHost {
-  T customDisposable<T extends Object>(
+  T bindDisposable<T extends Object>(
     T instance, {
     required FutureOr<void> Function() dispose,
   });
@@ -23,7 +23,7 @@ abstract class CustomDisposableCallHost {
 
 @internal
 abstract class CustomDisposableFactoryCallHost {
-  T customDisposableFactory<T extends Object>(
+  T createDisposable<T extends Object>(
     T Function() factory, {
     required FutureOr<void> Function(T instance) dispose,
   });

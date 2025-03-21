@@ -39,7 +39,7 @@ final class DisposeHolder
 
   @override
   @nonVirtual
-  T customDisposable<T extends Object>(
+  T bindDisposable<T extends Object>(
     T instance, {
     required FutureOr<void> Function() dispose,
   }) {
@@ -58,7 +58,7 @@ final class DisposeHolder
 
   @override
   @nonVirtual
-  T customDisposableFactory<T extends Object>(
+  T createDisposable<T extends Object>(
     T Function() factory, {
     required FutureOr<void> Function(T instance) dispose,
   }) {
