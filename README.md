@@ -9,7 +9,7 @@ Semi-automatic dispose holder that allows centralised disposal of objects
 - via mixin `DisposeHolderHostMixin`
     This mixin automatically:
     - creates under the hood `DisposeHolder` and tags by original class identityHashcode
-    - transforms your class into `disposable` extending original class with `dispose` method
+    - transforms your class into `Disposable` extending original class with `dispose` method
 
 #### 2. Bind each disposable value using `bindDisposable`
 
@@ -18,7 +18,8 @@ This methods automatically binds disposables into `disposeHolder` that was creat
 Usage:
 
 ```dart
-class SomeCoolClass with DisposeHolderHostMixin {
+// Each `DisposeHolderHostMixin` extends your class into `Disposable`
+class SomeCoolObject with DisposeHolderHostMixin /* implements Disposable */ {
 
     // Bind your object via `bindDisposable`
     late final myCoolStreamController = bindDisposable(
@@ -27,8 +28,8 @@ class SomeCoolClass with DisposeHolderHostMixin {
     );
 
     // After using mixin your class will automatically get these method and holder under the hood
-    late final disposeHolder = DisposeHolder(...);
-    void dispose() => disposeHolder.dispose();
+    /* from `DisposeHolderHostMixin` */  late final disposeHolder = DisposeHolder(...);
+    /* from `Disposable` */ void dispose() => disposeHolder.dispose();
 }
 
 // Somewhere in code
@@ -46,12 +47,12 @@ Sometimes we can forget to dispose our objects, such as `StreamSubscription`'s o
 
 Normally, you should prevent such situations, but..
 
-`disposito` may dispose your forgotten `Object`'s if their parental `Object` was GC'ed (if there's no references to this `Object`)
+`disposito` may dispose your forgotten disposables if their parental `Object` was GC'ed (if there's no references to this `Object`)
 
-After parental `Object` was collected, `WeakReference` under the hood loses a link to this object, marking `DisposeHolder` is "dirty"
+After parental `Object` was collected, `WeakReference` under the hood loses a link to this `Object`, marking `DisposeHolder` is "dirty"
 
 Such `DisposeHolder`'s will be purged aka disposed (with all binded disposables) after next update in internal `DisposeRegistry`
 
-Under the hood `DisposeRegistry` holds a hashmap with all existing `DisposeHolder`'s in gives you a possibility to track all previously created `DisposeHolder'`
+Under the hood `DisposeRegistry` holds a hashmap with all existing `DisposeHolder`'s, it gives you a possibility to interact with previously created `DisposeHolder`'s
 
 
