@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:disposito/disposito.dart';
 
 class SomeCoolObject with DisposeHolderHostMixin {
-  late final streamController = createDisposable(
-    StreamController<int>.new,
+  late final streamController = bindDisposable(
+    StreamController<int>(),
     dispose: (instance) => instance.close(),
   );
 
   // ignore: cancel_subscriptions
-  late final sub = createDisposable(
-    () => streamController.stream.listen(print),
+  late final sub = bindDisposable(
+    streamController.stream.listen(print),
     dispose: (instance) async {
       unawaited(instance.cancel());
       await Future<void>.delayed(const Duration(seconds: 1));
