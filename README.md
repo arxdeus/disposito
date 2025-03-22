@@ -1,19 +1,20 @@
 # Disposito
 
-Semi-automatic dispose holder that allows centralised disposal of objects
+Semi-automatic dispose holder that allows centralized disposal of objects
 
 ## Quickstart
 
 #### 1. Create `disposeHolder`:
 - via `DisposeHolder()` constructor
 - via mixin `DisposeHolderHostMixin`
+
     This mixin automatically:
-    - creates under the hood `DisposeHolder` and tags by original class identityHashcode
+    - creates under the hood `DisposeHolder` and tags by original class `identityHashcode`
     - transforms your class into `Disposable` extending original class with `dispose` method
 
-#### 2. Bind each disposable value using `bindDisposable`
+#### 2. Bind each disposable object using `bindDisposable`
 
-This methods automatically binds disposables into `disposeHolder` that was created in step 1.
+This method automatically binds disposables to a `disposeHolder`, which was created in step 1.
 
 Usage:
 
@@ -21,23 +22,23 @@ Usage:
 // Each `DisposeHolderHostMixin` extends your class into `Disposable`
 class SomeCoolObject with DisposeHolderHostMixin /* implements Disposable */ {
 
-    // Bind your object via `bindDisposable`
+    // Bind your object using the `bindDisposable` method
     late final myCoolStreamController = bindDisposable(
         StreamController<int>(),
         dispose: (controller) => controller.close(),
     );
 
-    // After using mixin your class will automatically get these method and holder under the hood
-    /* from `DisposeHolderHostMixin` */  late final disposeHolder = DisposeHolder(...);
-    /* from `Disposable` */ void dispose() => disposeHolder.dispose();
+    // After using a mixin, your class will automatically get this method and a holder under the hood
+    late final disposeHolder = DisposeHolder(...); // from `DisposeHolderHostMixin`
+    void dispose() => disposeHolder.dispose(); // from `Disposable`
 }
 
 // Somewhere in code
 void main() {
     final object = SomeCoolObject();
     myCoolStreamController.add(1); // Adds to controller `1`
-    /* await */ object.dispose(); // Use await if you want to wait untii disposition of all binded objects
-    myCoolStreamController.add(2); // Throws exception since the controller is closed
+    /* await */ object.dispose(); // Use await if you want to wait until the disposition of all bound objects
+    myCoolStreamController.add(2); // Throws exception because the `myCoolStreamController` is closed
 }
 ```
 
@@ -47,12 +48,12 @@ Sometimes we can forget to dispose our objects, such as `StreamSubscription`'s o
 
 Normally, you should prevent such situations, but..
 
-`disposito` may dispose your forgotten disposables if their parental `Object` was GC'ed (if there's no references to this `Object`)
+`disposito` may dispose your forgotten disposables if their parent `Object` was GC'd (if there are no references to this `Object`)
 
-After parental `Object` was collected, `WeakReference` under the hood loses a link to this `Object`, marking `DisposeHolder` is "dirty"
+After the parent `Object` is collected, `WeakReference` under the hood loses its link to that `Object`, marking `DisposeHolder` as "dirty"
 
-Such `DisposeHolder`'s will be purged aka disposed (with all binded disposables) after next update in internal `DisposeRegistry`
+Such `DisposeHolder`'s will be purged aka disposed (along with all bound disposables) after the next update in internal `DisposeRegistry`
 
-Under the hood `DisposeRegistry` holds a hashmap with all existing `DisposeHolder`'s, it gives you a possibility to interact with previously created `DisposeHolder`'s
+Under the hood `DisposeRegistry` holds a hashmap with all existing `DisposeHolder`'s, giving you the ability to interact with previously created `DisposeHolder`'s
 
 
