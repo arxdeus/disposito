@@ -5,12 +5,12 @@ import 'package:disposito/src/internal/internal.dart';
 
 extension StreamSubscrptionExtensions<T, S extends StreamSubscription<T>> on S {
   S bindDisposeTo(DisposableBinderHost disposeHolder) =>
-      disposeHolder.bindDisposable(this, dispose: (_) => unawaited(cancel()));
+      disposeHolder.bindDisposable(this, dispose: (_) => cancel());
 }
 
 extension StreamControllerExtensions<T, S extends StreamController<T>> on S {
   S bindDisposeTo(DisposableBinderHost disposeHolder) =>
-      disposeHolder.bindDisposable(this, dispose: (_) => unawaited(close()));
+      disposeHolder.bindDisposable(this, dispose: (_) => close());
 }
 
 extension TimerExtensions on Timer {
