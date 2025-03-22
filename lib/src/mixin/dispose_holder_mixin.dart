@@ -10,6 +10,7 @@ mixin DisposeHolderHostMixin implements Disposable {
 
   late final _disposeHolder = DisposeHolder(
     this,
+    // Use identity of host object as unique identifier
     debugName: identityHashCode(this).toRadixString(16),
   );
 
