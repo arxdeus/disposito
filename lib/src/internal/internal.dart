@@ -19,3 +19,7 @@ abstract class DisposableBinderHost {
     required FutureOr<void> Function(T instance) dispose,
   });
 }
+
+abstract final class Callable {
+  static T call<T>(T Function() callback) => callback();
+}
