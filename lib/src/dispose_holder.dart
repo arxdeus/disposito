@@ -12,6 +12,7 @@ final class DisposeHolder implements DisposableBinderHost, DisposeGroup, NamedOb
   }) : $debugName = debugName {
     _parent = WeakReference(parent);
     _finalizer.attach(parent, this, detach: _parent);
+
     DisposeRegistry.purgeAfter(() => DisposeRegistry.registeredHolders[this] = _parent);
   }
 
@@ -21,8 +22,7 @@ final class DisposeHolder implements DisposableBinderHost, DisposeGroup, NamedOb
 
   @override
   @internal
-  late final Map<Object, FutureOr<void> Function()> $disposers = {};
-
+  late final Map<Object, Future<void> Function()> $disposers = {};
   late final WeakReference<Object> _parent;
 
   bool _isDisposed = false;
@@ -39,7 +39,7 @@ final class DisposeHolder implements DisposableBinderHost, DisposeGroup, NamedOb
     if (isDisposed) return instance;
 
     if (!$disposers.containsKey(instance)) {
-      $disposers[instance] = () => dispose(instance);
+      $disposers[instance] = () async => await dispose(instance);
     }
     return instance;
   }
@@ -48,19 +48,23 @@ final class DisposeHolder implements DisposableBinderHost, DisposeGroup, NamedOb
   @mustCallSuper
   Future<void> dispose() {
     if (_isDisposed) return Future.value();
+
+    @pragma('vm:awaiter-link')
     final completer = Completer<void>.sync();
+
     // Prevents binding to this holder during disposing
     // preventing `Concurrent modification` problem
     _isDisposed = true;
 
-    scheduleMicrotask(
-      () => Future.wait($disposers.values.map((dispose) async => await dispose()))
-          .whenComplete(completer.complete)
-          // ignore: invalid_return_type_for_catch_error
-          .catchError(completer.completeError),
-    );
+    DisposeRegistry.purgeAfter(() {
+      $disposers.values.map(Callable.call).wait.then(
+            completer.complete,
+            onError: completer.completeError,
+          );
 
-    DisposeRegistry.purgeAfter(() => DisposeRegistry.registeredHolders.remove(this));
+      DisposeRegistry.registeredHolders.remove(this);
+    });
+
     _finalizer.detach(_parent);
     return completer.future;
   }
