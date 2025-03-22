@@ -11,10 +11,7 @@ class SomeCoolObject with DisposeHolderHostMixin {
   // ignore: cancel_subscriptions
   late final sub = bindDisposable(
     streamController.stream.listen(print),
-    dispose: (instance) async {
-      unawaited(instance.cancel());
-      await Future<void>.delayed(const Duration(seconds: 1));
-    },
+    dispose: (instance) => Future<void>.delayed(const Duration(seconds: 1), instance.cancel),
   );
 
   void add(int input) {
