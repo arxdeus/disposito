@@ -8,8 +8,8 @@ import 'package:meta/meta.dart';
 abstract final class DisposeRegistry {
   static final registeredHolders = <DisposeHolder, WeakReference<Object>>{};
 
-  static Future<void> purgeAfter(FutureOr<void> Function() function) async {
-    await function();
+  static void purgeAfter(void Function() function) {
+    function();
     Future(_purge).ignore();
   }
 
