@@ -11,23 +11,9 @@ on:
     branches:
       - 'main'
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      dart-matrix: ${{ steps.dart-matrix.outputs.matrix }}
-    steps:
-      - name: Get Dart SDK version constraints and packages
-        id: dart-matrix
-        uses: arxdeus/github_workflows/actions/dart_parse_versions@main
-        with:
-          parse-lower-version: true
-          parse-upper-version: false
   dry_publish:
     name: "Dry Publish - ${{ strategy.job-index }}"
-    needs: setup
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.setup.outputs.dart-matrix) }}
     steps:
     - name: "Checkout repository"
       uses: actions/checkout@v4
@@ -35,13 +21,11 @@ jobs:
         fetch-tags: true
         fetch-depth: 0
 
-    - name: "Setup Dart ${{ matrix.dart-version }}"
+    - name: "Setup Dart"
       uses: dart-lang/setup-dart@v1
       with:
-        sdk: ${{ matrix.dart-version }}
+        sdk: stable
 
     - name: "Run Dry Publish"
       shell: bash
-      if: ${{ github.event_name == 'pull_request' ||  github.event_name == 'push' }}
-      run: |
-        dart pub publish --dry-run
+      run: dart pub publish --dry-run
