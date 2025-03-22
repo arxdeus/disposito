@@ -8,12 +8,12 @@ abstract class DisposeGroup {
 }
 
 @internal
-abstract class Named {
+abstract class NamedObject {
   String? get $debugName;
 }
 
 @internal
-abstract class CustomDisposableCallHost {
+abstract class DisposableBinderHost {
   T bindDisposable<T extends Object>(
     T instance, {
     required FutureOr<void> Function(T instance) dispose,

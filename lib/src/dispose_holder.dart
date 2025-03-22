@@ -5,7 +5,7 @@ import 'package:disposito/src/internal/dispose_registry.dart';
 import 'package:disposito/src/internal/internal.dart';
 import 'package:meta/meta.dart';
 
-final class DisposeHolder implements CustomDisposableCallHost, DisposeGroup, Named, Disposable {
+final class DisposeHolder implements DisposableBinderHost, DisposeGroup, NamedObject, Disposable {
   DisposeHolder(
     Object parent, {
     String? debugName,
