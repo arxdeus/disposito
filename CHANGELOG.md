@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.2.2](https://github.com/arxdeus/disposito/compare/v0.2.1..0.2.2) - 2025-03-23
+
+### Documentation
+
+- **(README)** misspelling and styling fixes - ([070b570](https://github.com/arxdeus/disposito/commit/070b570612456cde7cf8015ee028c33928e05b7c))
+- **(dispose_holder_mixin)** internal comment for `debugName` clarification - ([8aa2613](https://github.com/arxdeus/disposito/commit/8aa26138b3a5e3118a664656e1b73de10c2922aa))
+
+### Miscellaneous Chores
+
+- **(example)** oneline dispose in `simple.dart` - ([0343a30](https://github.com/arxdeus/disposito/commit/0343a3006a8849892d12f85ad33d43fb8f20f526))
+- **(internal)** more verbose internal class names - ([e41fb98](https://github.com/arxdeus/disposito/commit/e41fb98e2b8476ff58f2999b07d0101fce511fab))
+
+### Refactoring
+
+- **(dispose_holder)** migrate to asynchronous api under the hood - ([c5892ec](https://github.com/arxdeus/disposito/commit/c5892ec25d21a9e9e2c5e3f1e7ecb3f1ee8db573))
+- **(dispose_registry)** execute `function` in `purgeAfter` synchronously - ([07a965f](https://github.com/arxdeus/disposito/commit/07a965f3f55bbe3bd81b1ec9f191dfac1f740f0c))
+- **(extensions)** asynchronous api without `unawaited` - ([28a7d31](https://github.com/arxdeus/disposito/commit/28a7d3166408221920d5a27a9dde508a156ac384))
+- **(internal)** `Callable.call` static for tear-off callback execution - ([15324e6](https://github.com/arxdeus/disposito/commit/15324e6ccaed4e81f4396375789ab69eb7348a76))
+
+### Ci
+
+- **(dry_publish)** fix double dry-run - ([6efd6c7](https://github.com/arxdeus/disposito/commit/6efd6c7595641e4532d2de9e588f39d9ed369a1a))
+
 ## [0.2.1](https://github.com/arxdeus/disposito/compare/v0.2.0..0.2.1) - 2025-03-21
 
 ### Documentation
