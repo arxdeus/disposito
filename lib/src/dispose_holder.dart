@@ -9,8 +9,7 @@ import 'package:meta/meta.dart';
 /// It implements the interfaces `DisposableBinderHost`, `DisposeGroup`, `NamedObject`, and `Disposable`.
 /// It's designed to be a central point for binding and disposing of disposable resources,
 /// ensuring that resources are properly released when no longer needed.
-final class DisposeHolder
-    implements DisposableBinderHost, DisposeGroup, NamedObject, Disposable {
+final class DisposeHolder implements DisposableBinderHost, DisposeGroup, NamedObject, Disposable {
   /// Constructs a new [DisposeHolder].
   ///
   /// [parent]: The parent object (e.g., a widget or component) associated with the holder.
@@ -101,6 +100,5 @@ final class DisposeHolder
   /// Returns a string representation of the [DisposeHolder], primarily for debugging purposes.
   /// Includes information about its debug name and whether it has been disposed.
   @override
-  String toString() =>
-      'DisposeHolder(debugName: ${$debugName}, isDisposed: $isDisposed)';
+  String toString() => 'DisposeHolder(debugName: ${$debugName}, isDisposed: $isDisposed)';
 }

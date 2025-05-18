@@ -4,15 +4,14 @@ import 'package:disposito/src/dispose_holder.dart';
 import 'package:disposito/src/interfaces.dart';
 import 'package:meta/meta.dart';
 
-
 /// This is an internal class that manages the disposal of objects.
 ///
 /// It uses a static map to store references to objects and their associated
 /// [DisposeHolder] objects.
 @internal
 abstract final class DisposeRegistry {
-
   static final registeredHolders = <DisposeHolder, WeakReference<Object>>{};
+
   /// The `purgeAfter` method can be used to schedule a purge of the registry.
   /// This method calls the provided function and then schedules the actual purge.
   ///
