@@ -1,6 +1,23 @@
-# Disposito
+# `disposito` - Semi-Automatic disposal system for Dart
 
-Semi-automatic dispose holder that allows centralized disposal of objects
+[![pub](https://img.shields.io/pub/points/disposito)](https://pub.dev/packages/disposito)
+
+`disposito` is a lightweight utility for managing the lifecycle of disposable objects in Dart, ensuring they are automatically disposed when their parent object is garbage collected.
+
+## Key Concepts
+
+- **Automatic Disposal**: Disposes bound objects when the parent object is no longer referenced
+- **Lifecycle Management**: Coordinates cleanup with the lifecycle of parent `DisposeHolderHostMixin`
+- **DisposeRegistry**: Maintains map of existing `DisposeHolder` instances for lifecycle management
+
+## Installation
+
+Add this to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  disposito: ^0.2.2
+```
 
 ## Quickstart
 
@@ -16,8 +33,9 @@ Semi-automatic dispose holder that allows centralized disposal of objects
 
 This method automatically binds disposables to a `disposeHolder`, which was created in step 1.
 
-Usage:
+## Usage Example
 
+### `DisposeHolderHost` Object declaration
 ```dart
 // Each `DisposeHolderHostMixin` extends your class into `Disposable`
 class SomeCoolObject with DisposeHolderHostMixin /* implements Disposable */ {
@@ -32,8 +50,10 @@ class SomeCoolObject with DisposeHolderHostMixin /* implements Disposable */ {
     late final disposeHolder = DisposeHolder(...); // from `DisposeHolderHostMixin`
     void dispose() => disposeHolder.dispose(); // from `Disposable`
 }
+```
 
-// Somewhere in code
+### Somewhere in code
+```dart
 void main() {
     final object = SomeCoolObject();
     myCoolStreamController.add(1); // Adds to controller `1`
@@ -42,18 +62,12 @@ void main() {
 }
 ```
 
-## Automatic disposing
 
-Sometimes we can forget to dispose our objects, such as `StreamSubscription`'s or `StreamController`'s
+## Contributing
 
-Normally, you should prevent such situations, but..
+Contributions are welcome! Please follow these guidelines when submitting pull requests:
 
-`disposito` may dispose your forgotten disposables if their parent `Object` was GC'd (if there are no references to this `Object`)
+1. Follow package `analysis_options.yaml`
+3. Add documentation for new features
 
-After the parent `Object` is collected, `WeakReference` under the hood loses its link to that `Object`, marking `DisposeHolder` as "dirty"
-
-Such `DisposeHolder`'s will be purged aka disposed (along with all bound disposables) after the next update in internal `DisposeRegistry`
-
-Under the hood `DisposeRegistry` holds a hashmap with all existing `DisposeHolder`'s, giving you the ability to interact with previously created `DisposeHolder`'s
-
-
+For reporting issues, please use the [GitHub Issues page](https://github.com/arxdeus/disposito/issues).
