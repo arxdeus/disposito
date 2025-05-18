@@ -4,8 +4,6 @@ import 'package:meta/meta.dart';
 
 typedef DisposeCallback = FutureOr<void> Function();
 
-
-
 /// A base class for resources that can be disposed of.
 ///
 /// Disposable objects should implement a `dispose()` method that performs
@@ -25,7 +23,8 @@ abstract class Disposable {
   /// @param disposable The disposable object to dispose.
   /// @return A `Future` that completes when the disposal is finished.
   @internal
-  static FutureOr<void> disposeObject(Disposable disposable) => disposable.dispose();
+  static FutureOr<void> disposeObject(Disposable disposable) =>
+      disposable.dispose();
 }
 
 /// A base class for resources that can be closed.

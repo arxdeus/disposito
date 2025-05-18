@@ -47,7 +47,8 @@ FutureOr<void> runTestsInVmService(
     await body(vmService);
   } else {
     test('run all tests in subprocess', () async {
-      await executeProcess('dart', ['run', '--enable-vm-service', selfFilePath]);
+      await executeProcess(
+          'dart', ['run', '--enable-vm-service', selfFilePath]);
     });
   }
 }
@@ -66,7 +67,8 @@ class VmServiceUtil {
           'Ensure you run like `dart run --enable-vm-service path/to/your/file.dart`');
     }
 
-    final vmService = await vmServiceConnectUri(_toWebSocket(serverUri), log: _Log());
+    final vmService =
+        await vmServiceConnectUri(_toWebSocket(serverUri), log: _Log());
     return VmServiceUtil._(vmService);
   }
 
@@ -103,7 +105,8 @@ Future<void> executeProcess(String executable, List<String> arguments) async {
   final process = await Process.start(executable, arguments);
 
   process.stdout.listen((e) => Log.d(kTag, String.fromCharCodes(e)));
-  process.stderr.listen((e) => Log.d(kTag, '[STDERR] ${String.fromCharCodes(e)}'));
+  process.stderr
+      .listen((e) => Log.d(kTag, '[STDERR] ${String.fromCharCodes(e)}'));
 
 //  stdout.addStream(process.stdout);
 //  stderr.addStream(process.stderr);

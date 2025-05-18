@@ -9,7 +9,9 @@ import 'util/gc_util.dart';
 
 class Test with DisposeHolderHostMixin {
   late final StreamSubscription<Object?> sub = bindDisposable(
-    Stream<Object?>.periodic(const Duration(milliseconds: 100)).take(5000).listen(null),
+    Stream<Object?>.periodic(const Duration(milliseconds: 100))
+        .take(5000)
+        .listen(null),
     dispose: (sub) => sub.cancel(),
   );
 
