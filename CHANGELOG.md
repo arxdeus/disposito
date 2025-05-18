@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.3](https://github.com/arxdeus/disposito/compare/v0.2.2..0.2.3) - 2025-05-18
+
+### Documentation
+
+- add comprehensive doc comments for classes (#9) - ([6960ec7](https://github.com/arxdeus/disposito/commit/6960ec77c248284bfd17be2ba18fe7803ac7a91a))
+- README v2 - ([a0b8747](https://github.com/arxdeus/disposito/commit/a0b87470b20ed270a1c0091d7261d3f0a68dfb5d))
+
+### Ci
+
+- trigger dry publish on `edit` and `synchronized` - ([673d6ec](https://github.com/arxdeus/disposito/commit/673d6ec207b1095bb950bd93df48afb9df0db0ec))
+
 ## [0.2.2](https://github.com/arxdeus/disposito/compare/v0.2.1..0.2.2) - 2025-03-23
 
 ### Documentation
